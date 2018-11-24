@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rock paper scissors</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+  </head>
+  <body>
+    <div>
+      <h1>Rock, Paper, Scissors</h1>
+      <p>First to 5 wins!</p>
+    </div>
+    <div id="results">
+      <p>Score</p>
+      You: <span id="player">0</span> | Computer: <span id="computer">0</span>
+      <p id="message"></p>
+    </div>
+    <div id="options">
+     <button id="btnRock">Rock</button>
+     <button id="btnPaper">Paper</button>
+     <button id="btnScissors">Scissors</button>
+    </div>
+    <div>
+      <button id="btnRestart">New game</button>
+    </div>
+    <footer>
+      <p>Made with &hearts; by Hattori</p>
+    </footer>
+  </body>
+</html>
+
+<script type="text/javascript">
+  function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function computerPlay(){
+    let choices = ['Rock', 'Paper', 'Scissors'];
+    let index = getRandomIntInclusive(0,2);
+    return choices[index];
+  }
+
+  var btnRock = document.querySelector("#btnRock");
+  btnRock.addEventListener('click', function(e) {
+    result = playRound("Rock", computerPlay());
+    game2(result);
+  });
+
+  var btnPaper = document.querySelector("#btnPaper");
+  btnPaper.addEventListener('click', function(e) {
+    result = playRound("Paper", computerPlay());
+    game2(result);
+  });
+
+  var btnScissors = document.querySelector("#btnScissors");
+  btnScissors.addEventListener("click", function(e){
+    result = playRound("Scissors", computerPlay());
+    game2(result);
+  });
+
+  var btnRestart = document.querySelector("#btnRestart");
+  btnRestart.addEventListener("click", function(e){
+    playerWin = 0;
+    computerWin = 0;
+    even = 0;
+
+    document.querySelector("#player").textContent = `${playerWin}`;
+    document.querySelector("#computer").textContent = `${computerWin}`;
+    document.querySelector("#btnRestart").style.visibility = "hidden";
+    document.querySelector("#btnRock").disabled = false;
+    document.querySelector("#btnPaper").disabled = false;
+    document.querySelector("#btnScissors").disabled = false;
+    document.querySelector("#message").textContent = "";
+  });
+
+  function playRound(playerSelection, computerSelection){
+    let playerChoice = playerSelection.toLowerCase();
+    let computerChoice = computerSelection.toLowerCase();
+
+    switch (playerChoice) {
+      case 'rock':
+        if (computerChoice == 'rock') {
+          document.querySelector("#message").textContent = "Even!";
+          return 'Even!'
+        } else if (computerChoice == 'scissors') {
+          document.querySelector("#message").textContent = "You Win! Rock beats Scissors.";
+          return true;
+        } else {
+          document.querySelector("#message").textContent = "You Lose! Paper beats Rock.";
+          return false;
+        }
+        break;
+      case 'paper':
+        if (computerChoice == 'paper') {
+          document.querySelector("#message").textContent = "Even!";
+          return 'Even!'
+        } else if (computerChoice == 'scissors') {
+          document.querySelector("#message").textContent = "You Lose! Scissors beats paper.";
+          return false;
+        } else {
+          document.querySelector("#message").textContent = "You Win! Paper beats Rock.";
+          return true;
+        }
+        break;
+      case 'scissors':
+        if (computerChoice == 'scissors') {
+          document.querySelector("#message").textContent = "Even!";
+          return 'Even!';
+        } else if (computerChoice == 'paper') {
+          document.querySelector("#message").textContent = "You Win! Scissors beats paper.";
+          return true;
+        } else {
+          document.querySelector("#message").textContent = "You Lose! Paper beats Rock.";
+          return false;
+        }
+        break;
+      default:
+        return "You entered something else!";
+    }
+  }
+
+  let playerWin = 0;
+  let computerWin = 0;
+  let even = 0;
+
+  function game2(result){
+    if (result == false) {
+      computerWin++;
+    } else if (result == true) {
+      playerWin++;
+    } else if(result == "Even!"){
+      even++;
+    }
+
+    document.querySelector("#player").textContent = `${playerWin}`;
+    document.querySelector("#computer").textContent = `${computerWin}`;
+
+    if (playerWin == 5 || computerWin == 5) {
+      document.querySelector("#message").textContent = "Start new game?";
+      document.querySelector("#btnRestart").style.visibility = "visible";
+      document.querySelector("#btnRock").disabled = true;
+      document.querySelector("#btnPaper").disabled = true;
+      document.querySelector("#btnScissors").disabled = true;
+    }
+  }
+
+  // function game(){
+  //   let playerWin = 0;
+  //   let computerWin = 0;
+  //   let even = 0;
+
+  //   let playerSelection1 = window.prompt('Enter your selection!', 'Rock, Paper, Scissors');
+  //   result1 = playRound(playerSelection1, computerPlay());
+
+  //   if (result1 == false) {
+  //     computerWin++;
+  //   } else if (result1 == true) {
+  //     playerWin++;
+  //   } else if(result1 == "Even!"){
+  //     even++;
+  //   }
+
+  //   let playerSelection2 = window.prompt('Enter your selection!', 'Rock, Paper, Scissors');
+  //   result2 = playRound(playerSelection2, computerPlay());
+
+  //   if (result2 == false) {
+  //     computerWin++;
+  //   } else if (result2 == true) {
+  //     playerWin++;
+  //   } else if(result2 == "Even!"){
+  //     even++;
+  //   }
+
+  //   let playerSelection3 = window.prompt('Enter your selection!', 'Rock, Paper, Scissors');
+  //   result3 = playRound(playerSelection3, computerPlay());
+
+  //   if (result3 == false) {
+  //     computerWin++;
+  //   } else if (result3 == true) {
+  //     playerWin++;
+  //   } else if(result3 == "Even!"){
+  //     even++;
+  //   }
+
+  //   let playerSelection4 = window.prompt('Enter your selection!', 'Rock, Paper, Scissors');
+  //   result4 = playRound(playerSelection4, computerPlay());
+
+  //   if (result4 == false) {
+  //     computerWin++;
+  //   } else if (result4 == true) {
+  //     playerWin++;
+  //   } else if(result4 == "Even!"){
+  //     even++;
+  //   }
+
+  //   let playerSelection5 = window.prompt('Enter your selection!', 'Rock, Paper, Scissors');
+  //   result5 = playRound(playerSelection5, computerPlay());
+
+  //   if (result5 == false) {
+  //     computerWin++;
+  //   } else if (result5 == true){
+  //     playerWin++;
+  //   } else if(result5 == "Even!"){
+  //     even++;
+  //   }
+
+  //   console.log(`Total player wins: ${playerWin}`);
+  //   console.log(`Total computer wins: ${computerWin}`);
+  //   console.log(`Total draws: ${even}`);
+  // }
+</script>
